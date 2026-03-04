@@ -1,6 +1,6 @@
 const BASE_URL = 'https://openapi.ls-sec.co.kr:8080';
-const APP_KEY = 'PSZakdw3rPLwpIAyxZfiNNnm4Iv5xLZ8CIYN';
-const APP_SECRET = 'zzaGHg6eGO6z9SmJnhFRO5JBRwhZYGuL';
+const APP_KEY = '';
+const APP_SECRET = '';
 
 let accessToken: string | null = null;
 export const getAccessToken = async (): Promise<string> => {
@@ -124,5 +124,23 @@ export const getStockPrice = async (shcode: string) => {
 export const getSectorPrice = async (upcode: string) => {
   return postApi('/stock/sector', 't1511', {
     t1511InBlock: { upcode },
+  });
+};
+
+// ============================
+// 주식계좌 기간별수익률 상세 조회 (FOCCQ33600)
+// ============================
+export const getAccountPeriodPnl = async (
+  startDt: string,  // 예: '20260101'
+  endDt: string,    // 예: '20260303'
+  termTp: '1' | '2' | '3' = '1'  // 1: 일별, 2: 주별, 3: 월별
+) => {
+  return postApi('/stock/accno', 'FOCCQ33600', {
+    FOCCQ33600InBlock1: {
+      RecCnt: 1,
+      QrySrtDt: startDt,
+      QryEndDt: endDt,
+      TermTp: termTp,
+    },
   });
 };
